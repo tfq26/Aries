@@ -177,134 +177,112 @@ const NavBar = () => {
   );
 
   return (
-    <nav className="bg-white dark:bg-orange-wheel p-2 shadow-md sticky top-0 z-30">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-2">
-          <img src="/logo.png" alt="" className="w-16" /> 
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          {currentUser && (
-            <Link 
-              to="/create" 
-              className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-beige transition-colors"
-            >
-              Create Post
+    <nav className="bg-rich-black-500 text-white shadow-lg fixed w-full z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <Link to="/" className="flex-shrink-0 flex items-center">
+              <span className="text-2xl font-bold text-aero-500">AZC</span>
+              <span className="ml-2 text-blue-ncs-300 hidden md:inline">Design Society</span>
             </Link>
-          )}
-          
-          {currentUser ? (
-            <div className="relative ml-4" ref={menuRef}>
-              <button 
-                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className="flex items-center space-x-2 focus:outline-none"
-                aria-expanded={isProfileMenuOpen}
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-4">
+            <Link
+              to="/"
+              className="px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-ncs-700 hover:text-white transition-colors duration-200"
+            >
+              Home
+            </Link>
+            {currentUser && (
+              <Link
+                to="/create-post"
+                className="px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-ncs-700 hover:text-white transition-colors duration-200"
               >
-                {currentUser.photoURL ? (
-                  <img 
-                    src={currentUser.photoURL} 
-                    alt={currentUser.displayName || 'User'} 
-                    className="w-8 h-8 rounded-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">
-                    {currentUser.displayName?.charAt(0).toUpperCase() || currentUser.email?.charAt(0).toUpperCase() || 'U'}
-                  </div>
-                )}
-                <FiChevronDown className={`text-gray-500 dark:text-gray-400 transition-transform ${isProfileMenuOpen ? 'transform rotate-180' : ''}`} />
-              </button>
-              
-              {isProfileMenuOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-700 rounded-md shadow-lg py-1 z-50 divide-y divide-gray-100 dark:divide-zinc-600">
-                  <div className="px-4 py-3">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">
-                      {currentUser.displayName || 'User'}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                      {currentUser.email}
-                    </p>
-                  </div>
-                  {!currentUser.emailVerified && (
-                    <div className="py-1">
-                      <button 
-                        onClick={async () => {
-                          try { 
-                            await sendEmailVerification(currentUser); 
-                            setError(''); 
-                            alert('Verification email sent.'); 
-                          } catch (error) { 
-                            console.error('Error sending verification email:', error); 
-                            setError('Failed to send verification email'); 
-                          }
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-zinc-600"
-                      >
-                        Verify Email
-                      </button>
+                Create Post
+              </Link>
+            )}
+            {currentUser ? (
+              <div className="relative ml-4" ref={menuRef}>
+                <button
+                  onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                  className="flex items-center space-x-2 focus:outline-none"
+                >
+                  {currentUser.photoURL ? (
+                    <img 
+                      src={currentUser.photoURL} 
+                      alt={currentUser.displayName || 'User'} 
+                      className="w-8 h-8 rounded-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-aero-500 flex items-center justify-center text-white text-sm font-medium">
+                      {currentUser.displayName?.charAt(0).toUpperCase() || currentUser.email?.charAt(0).toUpperCase() || 'U'}
                     </div>
                   )}
-                  <div className="py-1">
-                    <Link 
-                      to="/profile" 
-                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-600"
+                </button>
+                {isProfileMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-800 rounded-md shadow-lg py-1 z-50">
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
                       onClick={() => setIsProfileMenuOpen(false)}
                     >
                       <FiUser className="inline mr-2" /> Profile
                     </Link>
-                    <button 
+                    <button
                       onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-zinc-600 flex items-center cursor-pointer"
+                      className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-zinc-700"
                     >
-                      <FiLogOut className="mr-2 " /> Sign out
+                      <FiLogOut className="inline mr-2" /> Sign out
                     </button>
                   </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="flex items-center space-x-3 ml-4">
-              <Link 
-                to="/login" 
-                className="px-4 py-2 text-sm rounded-md bg-beige/80 text-black hover:bg-beige transition-colors"
-              >
-                Login
-              </Link>
-              <Link 
-                to="/signup" 
-                className="px-4 py-2 text-sm rounded-md bg-ash-gray/80 text-white hover:bg-ash-gray transition-colors"
-              >
-                Sign Up
-              </Link>
-            </div>
-          )}
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <Sheet>
-            <SheetTrigger asChild>
-              <button className="text-gray-800 dark:text-white focus:outline-none cursor-pointer">
-                <FiMenu size={24} className="cursor-pointer" />
-              </button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-4/5 max-w-sm flex flex-col p-0 bg-white dark:bg-zinc-900 text-gray-800 dark:text-white">
-              <SheetHeader className="p-6 border-b dark:border-zinc-700">
-                <SheetTitle className="text-xl text-gray-800 dark:text-white">Menu</SheetTitle>
-              </SheetHeader>
-              <div className="flex-1 overflow-y-auto p-6 text-gray-800 dark:text-white">
-                <NavLinks onLinkClick={() => document.querySelector('[data-state=open] button')?.click()} />
-              </div>
-              <div className="p-6 border-t dark:border-zinc-700 mt-auto">
-                {currentUser ? (
-                  <UserProfile onLinkClick={() => document.querySelector('[data-state=open] button')?.click()} />
-                ) : (
-                  <AuthButtons onLinkClick={() => document.querySelector('[data-state=open] button')?.click()} />
                 )}
               </div>
-            </SheetContent>
-          </Sheet>
+            ) : (
+              <div className="flex space-x-2">
+                <Link
+                  to="/login"
+                  className="px-4 py-2 rounded-md text-sm font-medium bg-blue-ncs-600 hover:bg-blue-ncs-700 text-white transition-colors duration-200"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-4 py-2 rounded-md text-sm font-medium bg-aero-600 hover:bg-aero-700 text-white transition-colors duration-200"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center">
+            <Sheet>
+              <SheetTrigger asChild>
+                <button className="text-white focus:outline-none">
+                  <FiMenu size={24} className="cursor-pointer" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-4/5 max-w-sm flex flex-col p-0 bg-white dark:bg-zinc-900 text-gray-800 dark:text-white">
+                <SheetHeader className="p-6 border-b dark:border-zinc-700">
+                  <SheetTitle className="text-xl text-gray-800 dark:text-white">AZC Menu</SheetTitle>
+                </SheetHeader>
+                <div className="flex-1 overflow-y-auto p-6 text-gray-800 dark:text-white">
+                  <NavLinks onLinkClick={() => document.querySelector('[data-state=open] button')?.click()} />
+                </div>
+                <div className="p-6 border-t dark:border-zinc-700 mt-auto">
+                  {currentUser ? (
+                    <UserProfile onLinkClick={() => document.querySelector('[data-state=open] button')?.click()} />
+                  ) : (
+                    <AuthButtons onLinkClick={() => document.querySelector('[data-state=open] button')?.click()} />
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </nav>

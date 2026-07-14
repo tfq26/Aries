@@ -36,7 +36,7 @@ function App() {
 
   if (initializationError) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-rich-black-50">
         <ErrorPage 
           error={initializationError} 
           resetError={() => window.location.reload()}
@@ -47,9 +47,10 @@ function App() {
 
   if (!isFirebaseReady) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center p-8" style={{ color: 'var(--eerie-black)' }}>
-          Initializing application...
+      <div className="flex items-center justify-center min-h-screen bg-rich-black-50">
+        <div className="text-center p-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-aero-500 mx-auto mb-4"></div>
+          <p className="text-rich-black-900 dark:text-gray-100 text-lg font-medium">Initializing AZC Design Society...</p>
         </div>
       </div>
     );
@@ -57,9 +58,9 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div>
+      <div className="min-h-screen flex flex-col">
         <NavBar />
-        <main className="container mx-auto px-4 py-8">
+        <main className="flex-grow container mx-auto px-4 py-8 bg-white dark:bg-rich-black-600">
           <Routes>
             <Route 
               path="/" 
